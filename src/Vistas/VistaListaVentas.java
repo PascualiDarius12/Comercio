@@ -236,56 +236,59 @@ public class VistaListaVentas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void calendario2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendario2PropertyChange
-        limpiarTabla();
-        ventas = venData.listaVentas();
-        // Obtener el valor seleccionado como objeto Calendar
-        Calendar calendar = calendario2.getCalendar();
 
-        // Convertir el objeto Calendar a LocalDate
-        try {
-            LocalDate fecha = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (evt.getPropertyName().equals("date")) { //para que no corra el evento sin elegir fecha. Accedemos a la variable del evento(evt) y con getPropertyName deberiamos obtener la cadena "date" si se elige fecha.
+            limpiarTabla();
+            ventas = venData.listaVentas();
+            // Obtener el valor seleccionado como objeto Calendar
+            Calendar calendar = calendario2.getCalendar();
 
-            for (Venta aux : ventas) {
+            // Convertir el objeto Calendar a LocalDate
+            try {
+                LocalDate fecha = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                if (aux.getFecha().compareTo(fecha) == 0) {
-                    Cliente c1 = cD.buscarCliente(aux.getCliente().getIdCliente());
+                for (Venta aux : ventas) {
 
-                    DetalleVenta dv1 = dV.buscarDetalle(aux.getIdVenta());
+                    if (aux.getFecha().compareTo(fecha) == 0) {
+                        Cliente c1 = cD.buscarCliente(aux.getCliente().getIdCliente());
 
-                    modelo.addRow(new Object[]{aux.getIdVenta(), aux.getFecha(), c1.getNombre(), c1.getApellido(), c1.getTelefono(), dv1.getProducto().getNombre(), dv1.getCantidad(), dv1.getPrecioVenta()});
+                        DetalleVenta dv1 = dV.buscarDetalle(aux.getIdVenta());
+
+                        modelo.addRow(new Object[]{aux.getIdVenta(), aux.getFecha(), c1.getNombre(), c1.getApellido(), c1.getTelefono(), dv1.getProducto().getNombre(), dv1.getCantidad(), dv1.getPrecioVenta()});
+                    }
+
                 }
-
+            } catch (Exception e) {
             }
-        } catch (Exception e) {
         }
 
     }//GEN-LAST:event_calendario2PropertyChange
 
     private void checkTodasStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkTodasStateChanged
-      
+
     }//GEN-LAST:event_checkTodasStateChanged
 
     private void checkTodasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_checkTodasPropertyChange
-       
+
     }//GEN-LAST:event_checkTodasPropertyChange
 
     private void checkTodasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkTodasMouseReleased
-    
+
     }//GEN-LAST:event_checkTodasMouseReleased
 
     private void checkTodasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkTodasItemStateChanged
-        
+
     }//GEN-LAST:event_checkTodasItemStateChanged
 
     private void checkTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkTodasActionPerformed
-          limpiarTabla();
-        if(checkTodas.isSelected()){
-        CargarTabla();
+        limpiarTabla();
+        if (checkTodas.isSelected()) {
+            CargarTabla();
         }
     }//GEN-LAST:event_checkTodasActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-      dispose();
+        dispose();
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
     private void CrearTabla() {
@@ -301,15 +304,14 @@ public class VistaListaVentas extends javax.swing.JInternalFrame {
         columnas.add("Producto");
         columnas.add("Cantidad");
         columnas.add("Precio");
-        
-         modelo = new DefaultTableModel() {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            
-            return column != 0 && column != 1 && column != 2 && column != 3 && column != 4 && column != 5 && column != 6 && column != 7; 
-        }
-    };
 
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                return column != 0 && column != 1 && column != 2 && column != 3 && column != 4 && column != 5 && column != 6 && column != 7;
+            }
+        };
 
         for (Object columna : columnas) {
             modelo.addColumn(columna);   //para agregarle columna x columna recorremos con un for each la lista columnas

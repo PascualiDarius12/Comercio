@@ -217,27 +217,30 @@ public class VistaListaCompras extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_checkTodasItemStateChanged
 
     private void calendarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarioPropertyChange
-        limpiarTabla();
-        compras = comData.listaCompras();
-        // Obtener el valor seleccionado como objeto Calendar
-        Calendar calendar = calendario.getCalendar();
 
-        // Convertir el objeto Calendar a LocalDate
-        try {
-            LocalDate fecha = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (evt.getPropertyName().equals("date")) { //para que no corra el evento sin elegir fecha. Accedemos a la variable del evento(evt) y con getPropertyName deberiamos obtener la cadena "date" si se elige fecha.
+            limpiarTabla();
+            compras = comData.listaCompras();
+            // Obtener el valor seleccionado como objeto Calendar
+            Calendar calendar = calendario.getCalendar();
 
-            for (Compra aux : compras) {
+            // Convertir el objeto Calendar a LocalDate
+            try {
+                LocalDate fecha = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                if (aux.getFecha().compareTo(fecha) == 0) {
-                    Proveedor p1 = provD.buscarProveedorPorID(aux.getProveedorC().getIdProveedor());
+                for (Compra aux : compras) {
 
-                    DetalleCompra dC1 = dC.buscarDetalleCompra(aux.getIdCompra());
+                    if (aux.getFecha().compareTo(fecha) == 0) {
+                        Proveedor p1 = provD.buscarProveedorPorID(aux.getProveedorC().getIdProveedor());
 
-                    modelo.addRow(new Object[]{aux.getIdCompra(), aux.getFecha(), p1.getNombre(), p1.getRazonSocial(), p1.getTelefono(), p1.getDomicilio(), dC1.getProducto().getNombre(), dC1.getCantidad(), dC1.getPrecioCosto()});
+                        DetalleCompra dC1 = dC.buscarDetalleCompra(aux.getIdCompra());
+
+                        modelo.addRow(new Object[]{aux.getIdCompra(), aux.getFecha(), p1.getNombre(), p1.getRazonSocial(), p1.getTelefono(), p1.getDomicilio(), dC1.getProducto().getNombre(), dC1.getCantidad(), dC1.getPrecioCosto()});
+                    }
+
                 }
-
+            } catch (Exception e) {
             }
-        } catch (Exception e) {
         }
     }//GEN-LAST:event_calendarioPropertyChange
 
@@ -259,15 +262,14 @@ public class VistaListaCompras extends javax.swing.JInternalFrame {
         columnas.add("Producto");
         columnas.add("Cantidad");
         columnas.add("Precio");
-        
-        modelo = new DefaultTableModel() {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            
-            return column != 0 && column != 1 && column != 2 && column != 3 && column != 4 && column != 5 && column != 6 && column != 7 && column != 8; 
-        }
-    };
 
+        modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+
+                return column != 0 && column != 1 && column != 2 && column != 3 && column != 4 && column != 5 && column != 6 && column != 7 && column != 8;
+            }
+        };
 
         for (Object columna : columnas) {
             modelo.addColumn(columna);   //para agregarle columna x columna recorremos con un for each la lista columnas

@@ -33,6 +33,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
     private DetalleCompraData detalleCD;
     private String fecha;
     private Date fechaCalendar;
+    private int cantidad;
 
     private Compra compra;
     private Proveedor proveedor;
@@ -52,7 +53,8 @@ public class VistaCompras extends javax.swing.JInternalFrame {
         proveedor = new Proveedor();
         detalleCompra = new DetalleCompra();
         producto = new Producto();
-
+        cantidad = 0;
+        textoCantidad.setText(String.valueOf(cantidad));
         cargarCombo();
         crearTabla();
         cargarTabla();
@@ -84,6 +86,8 @@ public class VistaCompras extends javax.swing.JInternalFrame {
         textoCantidad = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         calendario = new com.toedter.calendar.JDateChooser();
+        sumar = new javax.swing.JButton();
+        restar = new javax.swing.JButton();
 
         jLabel4.setText("jLabel4");
 
@@ -160,6 +164,20 @@ public class VistaCompras extends javax.swing.JInternalFrame {
         jLabel7.setForeground(new java.awt.Color(0, 51, 102));
         jLabel7.setText("Indique la fecha de su compra:");
 
+        sumar.setText("+");
+        sumar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sumarActionPerformed(evt);
+            }
+        });
+
+        restar.setText("-");
+        restar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,7 +186,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 243, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -187,11 +205,15 @@ public class VistaCompras extends javax.swing.JInternalFrame {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))))
+                        .addComponent(restar)
+                        .addGap(3, 3, 3)
+                        .addComponent(textoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sumar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -210,7 +232,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(botonComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(328, 328, 328))
+                .addGap(324, 324, 324))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,10 +260,12 @@ public class VistaCompras extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6)
-                        .addComponent(textoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(27, 27, 27)
+                        .addComponent(textoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(restar)
+                        .addComponent(sumar)))
+                .addGap(26, 26, 26)
                 .addComponent(botonComprar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -270,7 +294,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
             // Convertir el objeto Calendar a LocalDate
             LocalDate fecha = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             //OBTENER CANTIDAD DEL TEXTFIELD
-            int cantidad = Integer.parseInt(textoCantidad.getText());
+            cantidad = Integer.parseInt(textoCantidad.getText());
 
             try {
 
@@ -279,9 +303,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
                 producto = produD.buscarProducto(nombre);
 
                 //REGISTRAR COMPRA
-                
-               
-                    compra = new Compra(proveedor, fecha);
+                compra = new Compra(proveedor, fecha);
                 int idCompra = cD.registrarCompra(compra, proveedor.getIdProveedor()); //recuperar id compra al mismo tiempo q registro compra del resultset
                 compra.setIdCompra(idCompra);
 
@@ -294,7 +316,7 @@ public class VistaCompras extends javax.swing.JInternalFrame {
                 LimpiarTabla();
                 cargarTabla();
                 LimpiarTexto();
-               
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Seleccione un producto");
             }
@@ -340,15 +362,28 @@ public class VistaCompras extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void sumarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumarActionPerformed
+        cantidad = cantidad + 1;
+        textoCantidad.setText(String.valueOf(cantidad));
+    }//GEN-LAST:event_sumarActionPerformed
+
+    private void restarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restarActionPerformed
+        if (cantidad > 0) {
+            cantidad = cantidad - 1;
+            textoCantidad.setText(String.valueOf(cantidad));
+        }
+
+    }//GEN-LAST:event_restarActionPerformed
+
     private void cargarCombo() {
         listaProveedores = (ArrayList<Proveedor>) proveD.listarProveedores();
-        
+
         for (Proveedor aux : listaProveedores) {
-            
-            if(aux.isEstado() == true){
+
+            if (aux.isEstado() == true) {
                 comboProveedores.addItem(aux);
             }
-          
+
         }
     }
 
@@ -417,6 +452,8 @@ public class VistaCompras extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JButton restar;
+    private javax.swing.JButton sumar;
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField textoCantidad;
     private javax.swing.JTextField textoNombre;

@@ -52,7 +52,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="243" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="comboProveedores" alignment="0" min="-2" pref="333" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -77,11 +77,15 @@
                           <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="calendario" min="-2" pref="155" max="-2" attributes="0"/>
-                          <EmptySpace pref="69" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="textoCantidad" min="-2" pref="81" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="restar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                          <Component id="textoCantidad" min="-2" pref="66" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="sumar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -108,7 +112,7 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   <Component id="botonComprar" min="-2" pref="120" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="328" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="324" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -141,11 +145,13 @@
                           <Component id="jLabel7" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="textoCantidad" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="restar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="sumar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="botonComprar" min="-2" pref="52" max="-2" attributes="0"/>
-                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <EmptySpace pref="43" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -302,6 +308,22 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="calendario">
+        </Component>
+        <Component class="javax.swing.JButton" name="sumar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="+"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sumarActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="restar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="-"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="restarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
